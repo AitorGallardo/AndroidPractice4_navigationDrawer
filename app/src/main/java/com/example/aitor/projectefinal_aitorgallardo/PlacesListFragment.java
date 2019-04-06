@@ -74,28 +74,28 @@ public class PlacesListFragment extends Fragment{
 
         // Demanem totes les tasques
         Cursor cursorTasks = bd.placesList();
-
-        // Now create a simple cursor adapter and set it to display
-        scTasks = new adapterTodoIcon(this, R.layout.fragment_places_list_row, cursorTasks, from, to, 1);
-        scTasks.oTodoListIcon = this;
-
-        filterActual = filterKind.FILTER_ALL;
-
-        ListView lv = (ListView) findViewById(R.id.lvDades);
-        lv.setAdapter(scTasks);
-
-        lv.setOnItemClickListener(
-                new AdapterView.OnItemClickListener()
-                {
-                    @Override
-                    public void onItemClick(AdapterView<?> arg0, View view,
-                                            int position, long id) {
-
-                        // modifiquem el id
-                        updateTask(id);
-                    }
-                }
-        );
+//
+//        // Now create a simple cursor adapter and set it to display
+//        scTasks = new adapterTodoIcon(this, R.layout.fragment_places_list_row, cursorTasks, from, to, 1);
+//        scTasks.oTodoListIcon = this;
+//
+//        filterActual = filterKind.FILTER_ALL;
+//
+//        ListView lv = (ListView) findViewById(R.id.lvDades);
+//        lv.setAdapter(scTasks);
+//
+//        lv.setOnItemClickListener(
+//                new AdapterView.OnItemClickListener()
+//                {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> arg0, View view,
+//                                            int position, long id) {
+//
+//                        // modifiquem el id
+//                        updateTask(id);
+//                    }
+//                }
+//        );
     }
 
     @Override
