@@ -25,6 +25,11 @@ public class PlacesListFragment extends Fragment{
 
     private LugaresBDService bd;
 
+    private static String[] from = new String[]{LugaresBDService.PLACESLIST_NOMBRE, LugaresBDService.PLACESLIST_DIRECCION};
+    private static int[] to = new int[]{R.id.placeName, R.id.placeDirection};
+
+    private adapterPlacesList scTasks;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -67,42 +72,44 @@ public class PlacesListFragment extends Fragment{
         }
 
          bd = new LugaresBDService(this.getContext());
-        // loadTasks();
+         // loadTasks();
     }
 
-    private void loadTasks() {
+    private void loadTasks(View view) {
 
         // Demanem totes les tasques
         Cursor cursorTasks = bd.placesList();
+
+        // Now create a simple cursor adapter and set it to display
+       scTasks = new adapterPlacesList(this.getContext(), R.layout.fragment_places_list_row, cursorTasks, from, to, 1);
+       // scTasks.oTodoListIcon = this;
+
+       // filterActual = filterKind.FILTER_ALL;
+        ListView lv = (ListView) view.findViewById(R.id.lvDades);
+        //ListView lv = (ListView) getView().findViewById(R.id.lvDades);
+       // lv.setAdapter(scTasks);
+
+//       lv.setOnItemClickListener(
+//               new AdapterView.OnItemClickListener()
+//               {
+//                   @Override
+//                   public void onItemClick(AdapterView<?> arg0, View view,
+//                                           int position, long id) {
 //
-//        // Now create a simple cursor adapter and set it to display
-//        scTasks = new adapterTodoIcon(this, R.layout.fragment_places_list_row, cursorTasks, from, to, 1);
-//        scTasks.oTodoListIcon = this;
-//
-//        filterActual = filterKind.FILTER_ALL;
-//
-//        ListView lv = (ListView) findViewById(R.id.lvDades);
-//        lv.setAdapter(scTasks);
-//
-//        lv.setOnItemClickListener(
-//                new AdapterView.OnItemClickListener()
-//                {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> arg0, View view,
-//                                            int position, long id) {
-//
-//                        // modifiquem el id
-//                        updateTask(id);
-//                    }
-//                }
-//        );
+//                       // modifiquem el id
+//                       updateTask(id);
+//                   }
+//               }
+//       );
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        loadTasks(container);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_places_list, container, false);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -180,7 +187,7 @@ class adapterPlacesList extends android.widget.SimpleCursorAdapter {
                 // Carrego la linia del cursor de la posició.
                 Cursor linia = (Cursor) getItem(position);
 
-                oTodoListIcon.deleteTask(linia.getInt(linia.getColumnIndexOrThrow(toDoListDatasource.TODOLIST_ID)));
+                oTodoListIcon.deleteTask(linia.getInt(linia.getColumnIndexOrThrow(LugaresBD.TODOLIST_ID)));
             }
         });*/
 
