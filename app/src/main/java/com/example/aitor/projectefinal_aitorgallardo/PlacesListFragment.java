@@ -5,12 +5,14 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 
 /**
@@ -28,7 +30,7 @@ public class PlacesListFragment extends Fragment{
     private static String[] from = new String[]{LugaresBDService.PLACESLIST_NOMBRE, LugaresBDService.PLACESLIST_DIRECCION};
     private static int[] to = new int[]{R.id.placeName, R.id.placeDirection};
 
-    private adapterPlacesList scTasks;
+    private SimpleCursorAdapter scTasks;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -72,22 +74,19 @@ public class PlacesListFragment extends Fragment{
         }
 
          bd = new LugaresBDService(this.getContext());
-         // loadTasks();
+         //loadTasks();
     }
 
-    private void loadTasks(View view) {
+    private void loadTasks(View v) { // We need the view of the fragment, thats why we call this function
+                                    // 'onCreateView()' to get the view;
 
-        // Demanem totes les tasques
+        // We fill the cursor with the query that get all the places
         Cursor cursorTasks = bd.placesList();
-
+        Log.d("GET_CONTEXT_VALUE ===", this.getContext().toString());
         // Now create a simple cursor adapter and set it to display
-       scTasks = new adapterPlacesList(this.getContext(), R.layout.fragment_places_list_row, cursorTasks, from, to, 1);
-       // scTasks.oTodoListIcon = this;
-
-       // filterActual = filterKind.FILTER_ALL;
-        ListView lv = (ListView) view.findViewById(R.id.lvDades);
-        //ListView lv = (ListView) getView().findViewById(R.id.lvDades);
-       // lv.setAdapter(scTasks);
+        scTasks = new SimpleCursorAdapter(v.getContext(), R.layout.fragment_places_list_row, cursorTasks, from, to);      // scTasks.oTodoListIcon = this;
+        ListView lv = (ListView)v.findViewById(R.id.lvDades);
+        lv.setAdapter(scTasks);
 
 //       lv.setOnItemClickListener(
 //               new AdapterView.OnItemClickListener()
@@ -106,9 +105,13 @@ public class PlacesListFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        loadTasks(container);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_places_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_places_list, container, false);
+
+        loadTasks(v);
+
+        return v;
 
     }
 
