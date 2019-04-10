@@ -1,12 +1,16 @@
 package com.example.aitor.projectefinal_aitorgallardo;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -26,6 +30,10 @@ public class EditFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
+    private LugaresBDService bd;
+    Cursor cursorTasks;
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,13 +66,17 @@ public class EditFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        bd = new LugaresBDService(this.getContext());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_edit, container, false);
+        setUpLayoutElements(view);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -89,6 +101,38 @@ public class EditFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void setUpLayoutElements(View view){
+
+        final TextInputEditText addName = (TextInputEditText) view.findViewById(R.id.addName);
+        final TextInputEditText addDirection = (TextInputEditText) view.findViewById(R.id.addDirection);
+        final TextInputEditText addWeb = (TextInputEditText) view.findViewById(R.id.addWeb);
+        final TextInputEditText addPhone = (TextInputEditText) view.findViewById(R.id.addPhone);
+        final TextInputEditText addType = (TextInputEditText) view.findViewById(R.id.addType);
+        final TextInputEditText addLon = (TextInputEditText) view.findViewById(R.id.addLon);
+        final TextInputEditText addLat = (TextInputEditText) view.findViewById(R.id.addLat);
+        final TextInputEditText addRate = (TextInputEditText) view.findViewById(R.id.addRate);
+
+
+        Button button = (Button) view.findViewById(R.id.addButton);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                String name = addName.getText().toString() != null ? addName.getText().toString() : null;
+                String direction = addDirection.getText().toString() != null ? addDirection.getText().toString() : null;
+                String web = addWeb.getText().toString() != null ? addWeb.getText().toString() : null;
+                String phone = addPhone.getText().toString() != null ? addPhone.getText().toString() : null;
+                String type = addType.getText().toString() != null ? addType.getText().toString() : null;
+                String lon = addLon.getText().toString() != null ? addLon.getText().toString() : null;
+                String lat = addLat.getText().toString() != null ? addLat.getText().toString() : null;
+                String rate = addRate.getText().toString() != null ? addRate.getText().toString() : null;
+
+                bd.taskAdd(name, direction, web, phone, type, lon, lat, rate);
+            }
+        });
     }
 
     /**

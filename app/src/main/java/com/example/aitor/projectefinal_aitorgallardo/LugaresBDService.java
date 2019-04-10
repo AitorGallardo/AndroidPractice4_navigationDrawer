@@ -87,16 +87,21 @@ public class LugaresBDService {
     // Funciones de manipualación de datos
     // ******************
 
-    // public long taskAdd(String title, String description, int level) {
-    //     // Creem una nova tasca i retornem el id crear per si el necessiten
-    //     ContentValues values = new ContentValues();
-    //     values.put(PLACESLIST_TITLE, title);
-    //     values.put(PLACESLIST_DESCRIPCION, description);
-    //     values.put(PLACESLIST_LEVEL,level);
-    //     values.put(PLACESLIST_DONE,0);  // Forcem 0 pq si s'està creant la tasca no pot estar finalitzada
-
-    //     return dbW.insert(table_PLACESLIST,null,values);
-    // }
+    public long taskAdd(String name, String description, String web,
+                        String telefon,String tipus, String lat, String longit, String valoracio) {
+        // Creem una nova tasca i retornem el id crear per si el necessiten
+        ContentValues values = new ContentValues();
+        values.put(PLACESLIST_NOMBRE, name);
+        values.put(PLACESLIST_DIRECCION, description);
+        values.put(PLACESLIST_URL,web);
+        values.put(PLACESLIST_TELEFONO,telefon);
+        values.put(PLACESLIST_TIPO,tipus);
+        values.put(PLACESLIST_LATITUD,lat);
+        values.put(PLACESLIST_LONGITUD,longit);
+        values.put(PLACESLIST_VALORACION,valoracio);
+         
+         return dbW.insert(table_PLACESLIST,null,values);
+     }
 
     // public void taskUpdate(long id, String title, String description, int level) {
     //     // Modifiquem els valors de las tasca amb clau primària "id"

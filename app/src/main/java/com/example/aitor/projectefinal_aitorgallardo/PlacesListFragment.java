@@ -30,7 +30,7 @@ public class PlacesListFragment extends Fragment{
     private static String[] from = new String[]{LugaresBDService.PLACESLIST_NOMBRE, LugaresBDService.PLACESLIST_DIRECCION};
     private static int[] to = new int[]{R.id.placeName, R.id.placeDirection};
 
-    private SimpleCursorAdapter scTasks;
+    private SimpleCursorAdapter sCursorAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -84,9 +84,9 @@ public class PlacesListFragment extends Fragment{
         Cursor cursorTasks = bd.placesList();
         Log.d("GET_CONTEXT_VALUE ===", this.getContext().toString());
         // Now create a simple cursor adapter and set it to display
-        scTasks = new SimpleCursorAdapter(v.getContext(), R.layout.fragment_places_list_row, cursorTasks, from, to);      // scTasks.oTodoListIcon = this;
+        sCursorAdapter = new SimpleCursorAdapter(v.getContext(), R.layout.fragment_places_list_row, cursorTasks, from, to);      // scTasks.oTodoListIcon = this;
         ListView lv = (ListView)v.findViewById(R.id.lvDades);
-        lv.setAdapter(scTasks);
+        lv.setAdapter(sCursorAdapter);
 
 //       lv.setOnItemClickListener(
 //               new AdapterView.OnItemClickListener()
