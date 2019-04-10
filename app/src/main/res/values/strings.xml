@@ -7,6 +7,21 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <string-array name="typeOptions_array">
+        <item>OTROS</item>
+        <item>RESTAURANTE</item>
+        <item>BAR</item>
+        <item>COPAS</item>
+        <item>ESPECTACULO</item>
+        <item>HOTEL</item>
+        <item>COMPRAS</item>
+        <item>EDUCACION</item>
+        <item>DEPORTE</item>
+        <item>NATURALEZA</item>
+        <item>GASOLINERA</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
+

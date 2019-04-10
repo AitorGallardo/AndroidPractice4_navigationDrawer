@@ -10,7 +10,9 @@ import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 
 
 /**
@@ -105,11 +107,19 @@ public class EditFragment extends Fragment {
 
     public void setUpLayoutElements(View view){
 
+        // Selector (Using an array from '/styles' with the options)
+        final Spinner typeSelector = (Spinner) view.findViewById(R.id.typeSpinner);
+            // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(),
+                R.array.typeOptions_array, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+        typeSelector.setAdapter(adapter);
         final TextInputEditText addName = (TextInputEditText) view.findViewById(R.id.addName);
         final TextInputEditText addDirection = (TextInputEditText) view.findViewById(R.id.addDirection);
         final TextInputEditText addWeb = (TextInputEditText) view.findViewById(R.id.addWeb);
         final TextInputEditText addPhone = (TextInputEditText) view.findViewById(R.id.addPhone);
-        final TextInputEditText addType = (TextInputEditText) view.findViewById(R.id.addType);
         final TextInputEditText addLon = (TextInputEditText) view.findViewById(R.id.addLon);
         final TextInputEditText addLat = (TextInputEditText) view.findViewById(R.id.addLat);
         final TextInputEditText addRate = (TextInputEditText) view.findViewById(R.id.addRate);
@@ -125,7 +135,7 @@ public class EditFragment extends Fragment {
                 String direction = addDirection.getText().toString() != null ? addDirection.getText().toString() : null;
                 String web = addWeb.getText().toString() != null ? addWeb.getText().toString() : null;
                 String phone = addPhone.getText().toString() != null ? addPhone.getText().toString() : null;
-                String type = addType.getText().toString() != null ? addType.getText().toString() : null;
+                String type = typeSelector.getSelectedItem().toString();
                 String lon = addLon.getText().toString() != null ? addLon.getText().toString() : null;
                 String lat = addLat.getText().toString() != null ? addLat.getText().toString() : null;
                 String rate = addRate.getText().toString() != null ? addRate.getText().toString() : null;
