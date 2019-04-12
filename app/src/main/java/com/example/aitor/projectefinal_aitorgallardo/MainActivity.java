@@ -1,5 +1,6 @@
 package com.example.aitor.projectefinal_aitorgallardo;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -21,12 +22,14 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, EditFragment.OnFragmentInteractionListener,PlacesListFragment.OnFragmentInteractionListener {
 
+    Intent mapIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mapIntent = new Intent(this,MapsActivity.class);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +103,7 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.your_placeholder, new PlacesListFragment()).commit();
 
         } else if (id == R.id.nav_slideshow) {
-
+            startActivity(mapIntent);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
