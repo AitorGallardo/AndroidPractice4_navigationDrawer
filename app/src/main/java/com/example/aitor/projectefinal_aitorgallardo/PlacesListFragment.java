@@ -1,10 +1,12 @@
 package com.example.aitor.projectefinal_aitorgallardo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +25,11 @@ import android.widget.SimpleCursorAdapter;
  * Use the {@link PlacesListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PlacesListFragment extends Fragment{
+public class PlacesListFragment extends Fragment
+                                implements EditFragment.OnFragmentInteractionListener{
 
     private LugaresBDService bd;
+    private MainActivity mainAtivity;
 
     private static String[] from = new String[]{LugaresBDService.PLACESLIST_NOMBRE, LugaresBDService.PLACESLIST_DIRECCION};
     private static int[] to = new int[]{R.id.placeName, R.id.placeDirection};
@@ -47,6 +51,12 @@ public class PlacesListFragment extends Fragment{
         // Required empty public constructor
     }
 
+    public PlacesListFragment(Activity main) {
+
+        this.mainAtivity = main;
+        // Required empty public constructor
+    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -56,9 +66,10 @@ public class PlacesListFragment extends Fragment{
      * @return A new instance of fragment PlacesListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PlacesListFragment newInstance(String param1, String param2) {
+    public static PlacesListFragment newInstance(String param1, String param2, Activity main) {
         PlacesListFragment fragment = new PlacesListFragment();
         Bundle args = new Bundle();
+        this.mainAtivity = main;
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
@@ -88,18 +99,18 @@ public class PlacesListFragment extends Fragment{
         ListView lv = (ListView)v.findViewById(R.id.lvDades);
         lv.setAdapter(sCursorAdapter);
 
-//       lv.setOnItemClickListener(
-//               new AdapterView.OnItemClickListener()
-//               {
-//                   @Override
-//                   public void onItemClick(AdapterView<?> arg0, View view,
-//                                           int position, long id) {
-//
-//                       // modifiquem el id
-//                       updateTask(id);
-//                   }
-//               }
-//       );
+       lv.setOnItemClickListener(
+               new AdapterView.OnItemClickListener()
+               {
+                   @Override
+                   public void onItemClick(AdapterView<?> arg0, View view,
+                                           int position, long id) {
+
+                       FragmentManager fragmentManager = MainActivity.getSupportFragmentManager();
+                       fragmentManager.beginTransaction().replace(R.id.your_placeholder, new EditFragment()).commit();
+                   }
+               }
+       );
     }
 
     @Override
@@ -137,6 +148,11 @@ public class PlacesListFragment extends Fragment{
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     /**
