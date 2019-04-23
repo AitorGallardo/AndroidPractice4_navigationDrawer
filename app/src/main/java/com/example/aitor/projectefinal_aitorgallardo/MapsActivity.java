@@ -53,23 +53,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
          LatLng sydney = new LatLng(-34, 151);
-         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+         MarkerOptions test = new MarkerOptions();
+         test.position(sydney);
+         test.title("Marker in Sydney");
+        test.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        mMap.addMarker(test);
+
+         // mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
         //
 
        cursor = bd.placesList();
 
-      if (cursor.moveToFirst()) {
-          while (!cursor.isAfterLast()) {
-
-              String name = cursor.getString(cursor.getColumnIndex("nombre"));
-              int lon = Integer.valueOf(cursor.getString(cursor.getColumnIndex("longitud")));
-              int lat = Integer.valueOf(cursor.getString(cursor.getColumnIndex("latitud")));
-
-              marksList.add(new MapMarker(name, lon, lat));
-              cursor.moveToNext();
-          }
-      }
+       // PETA AL ACCEDET AL CURSOR ---->>. MIRAR
+//      if (cursor.moveToFirst()) {
+//          while (!cursor.isAfterLast()) {
+//
+//              String name = cursor.getString(cursor.getColumnIndex("nombre"));
+//              int lon = Integer.valueOf(cursor.getString(cursor.getColumnIndex("longitud")));
+//              int lat = Integer.valueOf(cursor.getString(cursor.getColumnIndex("latitud")));
+//
+//              marksList.add(new MapMarker(name, lon, lat));
+//              cursor.moveToNext();
+//          }
+//      }
 
 //       for(MapMarker marker : marksList){
 //
