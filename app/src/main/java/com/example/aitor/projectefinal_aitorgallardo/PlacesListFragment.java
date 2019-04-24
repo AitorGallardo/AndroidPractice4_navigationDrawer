@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,12 +30,13 @@ public class PlacesListFragment extends Fragment
                                 implements EditFragment.OnFragmentInteractionListener{
 
     private LugaresBDService bd;
-    private MainActivity mainAtivity;
+    private FragmentActivity myContext;
 
     private static String[] from = new String[]{LugaresBDService.PLACESLIST_NOMBRE, LugaresBDService.PLACESLIST_DIRECCION};
     private static int[] to = new int[]{R.id.placeName, R.id.placeDirection};
 
     private SimpleCursorAdapter sCursorAdapter;
+    Cursor cursorTasks;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,11 +53,7 @@ public class PlacesListFragment extends Fragment
         // Required empty public constructor
     }
 
-    public PlacesListFragment(Activity main) {
 
-        this.mainAtivity = main;
-        // Required empty public constructor
-    }
 
     /**
      * Use this factory method to create a new instance of
@@ -69,7 +67,6 @@ public class PlacesListFragment extends Fragment
     public static PlacesListFragment newInstance(String param1, String param2, Activity main) {
         PlacesListFragment fragment = new PlacesListFragment();
         Bundle args = new Bundle();
-        this.mainAtivity = main;
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
@@ -85,14 +82,14 @@ public class PlacesListFragment extends Fragment
         }
 
          bd = new LugaresBDService(this.getContext());
-         //loadTasks();
+
     }
 
     private void loadTasks(View v) { // We need the view of the fragment, thats why we call this function
                                     // 'onCreateView()' to get the view;
 
         // We fill the cursor with the query that get all the places
-        Cursor cursorTasks = bd.placesList();
+        cursorTasks = bd.placesList();
         Log.d("GET_CONTEXT_VALUE ===", this.getContext().toString());
         // Now create a simple cursor adapter and set it to display
         sCursorAdapter = new SimpleCursorAdapter(v.getContext(), R.layout.fragment_places_list_row, cursorTasks, from, to);      // scTasks.oTodoListIcon = this;
@@ -105,9 +102,20 @@ public class PlacesListFragment extends Fragment
                    @Override
                    public void onItemClick(AdapterView<?> arg0, View view,
                                            int position, long id) {
+                       Bundle bundle = new Bundle();
+                       bundle.putLong("id",id); // Put anything what you want
 
-                       FragmentManager fragmentManager = MainActivity.getSupportFragmentManager();
-                       fragmentManager.beginTransaction().replace(R.id.your_placeholder, new EditFragment()).commit();
+                       EditFragment editFragment = new EditFragment();
+                       editFragment.setArguments(bundle);
+
+                       getFragmentManager()
+                               .beginTransaction()
+                               .replace(R.id.your_placeholder, editFragment)
+                               .commit();
+
+
+//                       FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+//                       fragmentManager.beginTransaction().replace(R.id.your_placeholder, new EditFragment()).commit();
                    }
                }
        );
@@ -142,6 +150,12 @@ public class PlacesListFragment extends Fragment
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        myContext=(FragmentActivity) activity;
+        super.onAttach(activity);
     }
 
     @Override

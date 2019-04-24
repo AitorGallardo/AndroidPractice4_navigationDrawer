@@ -1,11 +1,13 @@
 package com.example.aitor.projectefinal_aitorgallardo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +39,7 @@ public class EditFragment extends Fragment {
     private LugaresBDService bd;
     Cursor cursorTasks;
 
+
     private OnFragmentInteractionListener mListener;
 
     public EditFragment() {
@@ -55,6 +58,8 @@ public class EditFragment extends Fragment {
     public static EditFragment newInstance(String param1, String param2) {
         EditFragment fragment = new EditFragment();
         Bundle args = new Bundle();
+
+
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
@@ -68,7 +73,13 @@ public class EditFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        Bundle bundle = this.getArguments();
         bd = new LugaresBDService(this.getContext());
+        if(bundle != null){
+          long taskId = bundle.getLong("id");
+            cursorTasks = bd.task(taskId);
+        }
+
     }
 
     @Override
@@ -99,6 +110,9 @@ public class EditFragment extends Fragment {
         }
     }
 
+
+
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -124,7 +138,12 @@ public class EditFragment extends Fragment {
         final TextInputEditText addLat = (TextInputEditText) view.findViewById(R.id.addLat);
         final TextInputEditText addRate = (TextInputEditText) view.findViewById(R.id.addRate);
 
+        if(cursorTasks != null){
+            String test = getString(cursorTasks.getColumnIndexOrThrow(bd.PLACESLIST_NOMBRE));
+            addName.setText(test);
+        } else {
 
+        }
         Button button = (Button) view.findViewById(R.id.addButton);
         button.setOnClickListener(new View.OnClickListener()
         {

@@ -74,14 +74,14 @@ public class LugaresBDService {
     //             null, null, PLACESLIST_ID);
     // }
 
-    // public Cursor task(long id) {
-    //     // Retorna un cursor només amb el id indicat
-    //     // Retornem les tasques que el camp DONE = 1
-    //     return dbR.query(table_PLACESLIST, new String[]{PLACESLIST_ID,PLACESLIST_TITLE,PLACESLIST_DESCRIPCION,PLACESLIST_LEVEL,PLACESLIST_DONE},
-    //             PLACESLIST_ID+ "=?", new String[]{String.valueOf(id)},
-    //             null, null, null);
+     public Cursor task(long id) {
+         // Retorna un cursor només amb el id indicat
+         // Retornem les tasques que el camp DONE = 1
+         return dbR.query(table_PLACESLIST, new String[]{PLACESLIST_ID,PLACESLIST_NOMBRE,PLACESLIST_DIRECCION,PLACESLIST_URL,PLACESLIST_TELEFONO, PLACESLIST_TIPO, PLACESLIST_LATITUD, PLACESLIST_LONGITUD, PLACESLIST_VALORACION},
+                 PLACESLIST_ID+ "=?", new String[]{String.valueOf(id)},
+                 null, null, null);
 
-    // }
+     }
 
     // ******************
     // Funciones de manipualación de datos
