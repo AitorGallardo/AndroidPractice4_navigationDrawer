@@ -23,7 +23,7 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/shopping24px" />
+                app:srcCompat="@drawable/shopping" />
 
             <LinearLayout
                 android:layout_width="match_parent"
