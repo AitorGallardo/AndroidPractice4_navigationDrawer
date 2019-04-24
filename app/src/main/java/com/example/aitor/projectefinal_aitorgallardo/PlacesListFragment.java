@@ -3,19 +3,26 @@ package com.example.aitor.projectefinal_aitorgallardo;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toolbar;
 
 
 /**
@@ -31,6 +38,8 @@ public class PlacesListFragment extends Fragment
 
     private LugaresBDService bd;
     private FragmentActivity myContext;
+
+    Toolbar toolbar;
 
     private static String[] from = new String[]{LugaresBDService.PLACESLIST_NOMBRE, LugaresBDService.PLACESLIST_DIRECCION};
     private static int[] to = new int[]{R.id.placeName, R.id.placeDirection};
@@ -80,6 +89,8 @@ public class PlacesListFragment extends Fragment
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+            setHasOptionsMenu(true); //we need this function to edit the menu, it report that this fragment would like to participate in populating the options menu
+                                    // by receiving a call to onCreateOptionsMenu(Menu, MenuInflater) and related methods.
 
          bd = new LugaresBDService(this.getContext());
 
@@ -124,10 +135,16 @@ public class PlacesListFragment extends Fragment
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_places_list, container, false);
-
         loadTasks(v);
 
+
         return v;
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.list_menu, menu);
 
     }
 
@@ -181,63 +198,4 @@ public class PlacesListFragment extends Fragment
         void onFragmentInteraction(Uri uri);
     }
 }
-class adapterPlacesList extends android.widget.SimpleCursorAdapter {
-    private static final String colorTaskPending = "#d78290";
-    private static final String colorTaskCompleted = "#d7d7d7";
 
-    public  PlacesListFragment oTodoListIcon;
-
-    public adapterPlacesList(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
-        super(context, layout, c, from, to, flags);
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        View view = super.getView(position, convertView, parent);
-
-        // Agafem l'objecte de la view que es una LINEA DEL CURSOR
-        Cursor linia = (Cursor) getItem(position);
-
-
-
-        // Capturem botons
-/*        ImageView btnMensage = (ImageView) view.findViewById(R.id.btnDelete);
-        ImageView btnUpdate = (ImageView) view.findViewById(R.id.btnUpdate);
-        btnMensage.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                // Busco la ROW
-                View row = (View) v.getParent();
-                // Busco el ListView
-                ListView lv = (ListView) row.getParent();
-                // Busco quina posicio ocupa la Row dins de la ListView
-                int position = lv.getPositionForView(row);
-
-                // Carrego la linia del cursor de la posició.
-                Cursor linia = (Cursor) getItem(position);
-
-                oTodoListIcon.deleteTask(linia.getInt(linia.getColumnIndexOrThrow(LugaresBD.TODOLIST_ID)));
-            }
-        });*/
-
-/*        btnUpdate.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                // Busco la ROW
-                View row = (View) v.getParent();
-                // Busco el ListView
-                ListView lv = (ListView) row.getParent();
-                // Busco quina posicio ocupa la Row dins de la ListView
-                int position = lv.getPositionForView(row);
-
-                // Carrego la linia del cursor de la posició.
-                Cursor linia = (Cursor) getItem(position);
-                oTodoListIcon.updateTask(linia.getInt(linia.getColumnIndexOrThrow(toDoListDatasource.TODOLIST_ID)));
-
-            }
-        });*/
-
-        return view;
-    }
-}
