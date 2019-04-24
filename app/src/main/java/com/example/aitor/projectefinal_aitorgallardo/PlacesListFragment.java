@@ -103,7 +103,7 @@ public class PlacesListFragment extends Fragment
                    public void onItemClick(AdapterView<?> arg0, View view,
                                            int position, long id) {
                        Bundle bundle = new Bundle();
-                       bundle.putLong("id",id); // Put anything what you want
+                       bundle.putLong("id",id);
 
                        EditFragment editFragment = new EditFragment();
                        editFragment.setArguments(bundle);
@@ -113,9 +113,6 @@ public class PlacesListFragment extends Fragment
                                .replace(R.id.your_placeholder, editFragment)
                                .commit();
 
-
-//                       FragmentManager fragmentManager = myContext.getSupportFragmentManager();
-//                       fragmentManager.beginTransaction().replace(R.id.your_placeholder, new EditFragment()).commit();
                    }
                }
        );
