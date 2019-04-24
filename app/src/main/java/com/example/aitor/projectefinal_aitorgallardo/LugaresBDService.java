@@ -103,16 +103,21 @@ public class LugaresBDService {
          return dbW.insert(table_PLACESLIST,null,values);
      }
 
-    // public void taskUpdate(long id, String title, String description, int level) {
-    //     // Modifiquem els valors de las tasca amb clau primària "id"
-    //     ContentValues values = new ContentValues();
-    //     values.put(PLACESLIST_TITLE, title);
-    //     values.put(PLACESLIST_DESCRIPCION, description);
-    //     values.put(PLACESLIST_LEVEL,level);
-    //     values.put(PLACESLIST_DONE,0);  // Forcem 0 pq si s'està creant la tasca no pot estar finalitzada
+     public void taskUpdate(long id, String name, String description, String web,
+                            String telefon,String tipus, String lat, String longit, String valoracio) {
+         // Modifiquem els valors de las tasca amb clau primària "id"
+         ContentValues values = new ContentValues();
+         values.put(PLACESLIST_NOMBRE, name);
+         values.put(PLACESLIST_DIRECCION, description);
+         values.put(PLACESLIST_URL,web);
+         values.put(PLACESLIST_TELEFONO,telefon);
+         values.put(PLACESLIST_TIPO,tipus);
+         values.put(PLACESLIST_LATITUD,lat);
+         values.put(PLACESLIST_LONGITUD,longit);
+         values.put(PLACESLIST_VALORACION,valoracio);
 
-    //     dbW.update(table_PLACESLIST,values, PLACESLIST_ID + " = ?", new String[] { String.valueOf(id) });
-    // }
+         dbW.update(table_PLACESLIST,values, PLACESLIST_ID + " = ?", new String[] { String.valueOf(id) });
+     }
 
     // public void taskDelete(long id) {
     //     // Eliminem la task amb clau primària "id"

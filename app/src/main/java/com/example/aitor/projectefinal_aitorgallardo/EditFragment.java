@@ -139,11 +139,22 @@ public class EditFragment extends Fragment {
         final TextInputEditText addRate = (TextInputEditText) view.findViewById(R.id.addRate);
 
         if(cursorTasks != null){
-            String test = getString(cursorTasks.getColumnIndexOrThrow(bd.PLACESLIST_NOMBRE));
-            addName.setText(test);
-        } else {
+            cursorTasks.moveToFirst();
 
+            String nameToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_NOMBRE));
+            addName.setText(nameToEdit);
+            String dirToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_DIRECCION));
+            addDirection.setText(dirToEdit);
+            String webToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_URL));
+            addWeb.setText(webToEdit);
+            String phoneToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_TELEFONO));
+            addPhone.setText(phoneToEdit);
+            String lonToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_LONGITUD));
+            addLon.setText(lonToEdit);
+            String latToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_LATITUD));
+            addLat.setText(latToEdit);
         }
+
         Button button = (Button) view.findViewById(R.id.addButton);
         button.setOnClickListener(new View.OnClickListener()
         {
@@ -159,7 +170,13 @@ public class EditFragment extends Fragment {
                 String lat = addLat.getText().toString() != null ? addLat.getText().toString() : null;
                 String rate = addRate.getText().toString() != null ? addRate.getText().toString() : null;
 
-                bd.taskAdd(name, direction, web, phone, type, lon, lat, rate);
+                if(cursorTasks != null){
+                    long id = Long.parseLong(cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_ID)));
+                    bd.taskUpdate(id ,name, direction, web, phone, type, lon, lat, rate);
+                }else{
+                    bd.taskAdd(name, direction, web, phone, type, lon, lat, rate);
+                }
+
             }
         });
     }
