@@ -7,21 +7,22 @@
         android:id="@+id/arrow_back"
         android:icon="@drawable/back_white"
         android:title="Back"
-        app:showAsAction="always|withText" />
+        android:tint="@android:color/white"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_save"
         android:icon="@drawable/save_white"
         android:title="Save"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom" />
+        android:tint="@android:color/white"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_delete"
         android:icon="@drawable/delete_white"
         android:title="Delete"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom" />
+        android:tint="@android:color/white"
+        app:showAsAction="always" />
 
 </menu>
 
