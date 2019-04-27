@@ -119,10 +119,10 @@ public class LugaresBDService {
          dbW.update(table_PLACESLIST,values, PLACESLIST_ID + " = ?", new String[] { String.valueOf(id) });
      }
 
-    // public void taskDelete(long id) {
-    //     // Eliminem la task amb clau primària "id"
-    //     dbW.delete(table_PLACESLIST,PLACESLIST_ID + " = ?", new String[] { String.valueOf(id) });
-    // }
+     public void taskDelete(long id) {
+         // Eliminem la task amb clau primària "id"
+         dbW.delete(table_PLACESLIST,PLACESLIST_ID + " = ?", new String[] { String.valueOf(id) });
+     }
 
     // public void taskPending(long id) {
     //     // Modifiquem al estat de pendent la task indicada

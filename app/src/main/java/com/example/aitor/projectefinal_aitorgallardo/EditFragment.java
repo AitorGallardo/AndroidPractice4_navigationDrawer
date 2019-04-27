@@ -38,6 +38,9 @@ public class EditFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    TextInputEditText addName, addDirection, addWeb, addPhone, addLon, addLat, addRate;
+    Spinner typeSelector;
+
 
     private LugaresBDService bd;
     Cursor cursorTasks;
@@ -127,16 +130,15 @@ public class EditFragment extends Fragment {
                         .commit();
                 return true;
             case R.id.action_save:
-
-
+                addOrUpdate();
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.your_placeholder, listFragment)
                         .commit();
                 return true;
             case R.id.action_delete:
-
-
+                long id = Long.parseLong(cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_ID)));
+                bd.taskDelete(id);
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.your_placeholder, listFragment)
@@ -177,7 +179,7 @@ public class EditFragment extends Fragment {
     public void setUpLayoutElements(View view){
 
         // Selector (Using an array from '/styles' with the options)
-        final Spinner typeSelector = (Spinner) view.findViewById(R.id.typeSpinner);
+        typeSelector = (Spinner) view.findViewById(R.id.typeSpinner);
             // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(),
                 R.array.typeOptions_array, android.R.layout.simple_spinner_item);
@@ -185,13 +187,13 @@ public class EditFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             // Apply the adapter to the spinner
         typeSelector.setAdapter(adapter);
-        final TextInputEditText addName = (TextInputEditText) view.findViewById(R.id.addName);
-        final TextInputEditText addDirection = (TextInputEditText) view.findViewById(R.id.addDirection);
-        final TextInputEditText addWeb = (TextInputEditText) view.findViewById(R.id.addWeb);
-        final TextInputEditText addPhone = (TextInputEditText) view.findViewById(R.id.addPhone);
-        final TextInputEditText addLon = (TextInputEditText) view.findViewById(R.id.addLon);
-        final TextInputEditText addLat = (TextInputEditText) view.findViewById(R.id.addLat);
-        final TextInputEditText addRate = (TextInputEditText) view.findViewById(R.id.addRate);
+        addName = (TextInputEditText) view.findViewById(R.id.addName);
+        addDirection = (TextInputEditText) view.findViewById(R.id.addDirection);
+        addWeb = (TextInputEditText) view.findViewById(R.id.addWeb);
+        addPhone = (TextInputEditText) view.findViewById(R.id.addPhone);
+        addLon = (TextInputEditText) view.findViewById(R.id.addLon);
+        addLat = (TextInputEditText) view.findViewById(R.id.addLat);
+        addRate = (TextInputEditText) view.findViewById(R.id.addRate);
 
         if(cursorTasks != null){
             cursorTasks.moveToFirst();
@@ -210,30 +212,25 @@ public class EditFragment extends Fragment {
             addLat.setText(latToEdit);
         }
 
-        Button button = (Button) view.findViewById(R.id.addButton);
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                String name = addName.getText().toString() != null ? addName.getText().toString() : null;
-                String direction = addDirection.getText().toString() != null ? addDirection.getText().toString() : null;
-                String web = addWeb.getText().toString() != null ? addWeb.getText().toString() : null;
-                String phone = addPhone.getText().toString() != null ? addPhone.getText().toString() : null;
-                String type = typeSelector.getSelectedItem().toString();
-                String lon = addLon.getText().toString() != null ? addLon.getText().toString() : null;
-                String lat = addLat.getText().toString() != null ? addLat.getText().toString() : null;
-                String rate = addRate.getText().toString() != null ? addRate.getText().toString() : null;
+    }
 
-                if(cursorTasks != null){
-                    long id = Long.parseLong(cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_ID)));
-                    bd.taskUpdate(id ,name, direction, web, phone, type, lon, lat, rate);
-                }else{
-                    bd.taskAdd(name, direction, web, phone, type, lon, lat, rate);
-                }
+    public void addOrUpdate(){
 
-            }
-        });
+        String name = addName.getText().toString() != null ? addName.getText().toString() : null;
+        String direction = addDirection.getText().toString() != null ? addDirection.getText().toString() : null;
+        String web = addWeb.getText().toString() != null ? addWeb.getText().toString() : null;
+        String phone = addPhone.getText().toString() != null ? addPhone.getText().toString() : null;
+        String type = typeSelector.getSelectedItem().toString();
+        String lon = addLon.getText().toString() != null ? addLon.getText().toString() : null;
+        String lat = addLat.getText().toString() != null ? addLat.getText().toString() : null;
+        String rate = addRate.getText().toString() != null ? addRate.getText().toString() : null;
+
+        if(cursorTasks != null){
+            long id = Long.parseLong(cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_ID)));
+            bd.taskUpdate(id ,name, direction, web, phone, type, lon, lat, rate);
+        }else{
+            bd.taskAdd(name, direction, web, phone, type, lon, lat, rate);
+        }
     }
 
     /**
