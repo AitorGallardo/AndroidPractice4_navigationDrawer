@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/arrow_back"
+        android:icon="@drawable/back_white"
+        android:title="Back"
+        android:tint="@android:color/white"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_save"
+        android:icon="@drawable/save_new"
+        android:title="Save"
+        android:tint="@android:color/white"
+        app:showAsAction="always" />
+
+
+</menu>
+
+

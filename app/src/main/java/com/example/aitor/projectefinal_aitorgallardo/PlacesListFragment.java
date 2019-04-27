@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -144,8 +145,25 @@ public class PlacesListFragment extends Fragment
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
         inflater.inflate(R.menu.list_menu, menu);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                EditFragment editFragment = new EditFragment();
+
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.your_placeholder, editFragment)
+                        .commit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -154,6 +172,8 @@ public class PlacesListFragment extends Fragment
             mListener.onFragmentInteraction(uri);
         }
     }
+
+
 
     @Override
     public void onAttach(Context context) {

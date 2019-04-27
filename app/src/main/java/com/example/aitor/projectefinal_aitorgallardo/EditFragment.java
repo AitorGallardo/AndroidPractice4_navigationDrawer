@@ -10,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -39,6 +42,7 @@ public class EditFragment extends Fragment {
     private LugaresBDService bd;
     Cursor cursorTasks;
 
+    private boolean addig_place;
 
     private OnFragmentInteractionListener mListener;
 
@@ -75,10 +79,18 @@ public class EditFragment extends Fragment {
         }
         Bundle bundle = this.getArguments();
         bd = new LugaresBDService(this.getContext());
-        if(bundle != null){
+
+        if(bundle != null){ // we need to be aware when our form is adding or edditing
+            addig_place = false;
           long taskId = bundle.getLong("id");
             cursorTasks = bd.task(taskId);
+        } else {
+            addig_place = true;
         }
+
+        setHasOptionsMenu(true); //we need this function to edit the menu, it report that this fragment would like to participate in populating the options menu
+                                 // by receiving a call to onCreateOptionsMenu(Menu, MenuInflater) and related methods.
+
 
     }
 
@@ -90,6 +102,49 @@ public class EditFragment extends Fragment {
         setUpLayoutElements(view);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if(addig_place){
+            inflater.inflate(R.menu.add_menu, menu);
+        } else {
+            inflater.inflate(R.menu.edit_menu, menu);
+        }
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        PlacesListFragment listFragment = new PlacesListFragment(); // any action on menu ends up on returning to listview
+
+        switch (item.getItemId()) {
+            case R.id.arrow_back:
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.your_placeholder, listFragment)
+                        .commit();
+                return true;
+            case R.id.action_save:
+
+
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.your_placeholder, listFragment)
+                        .commit();
+                return true;
+            case R.id.action_delete:
+
+
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.your_placeholder, listFragment)
+                        .commit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
