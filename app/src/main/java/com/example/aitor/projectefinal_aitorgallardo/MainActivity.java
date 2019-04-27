@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_add) {
             try{
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.your_placeholder, new EditFragment()).commit();
@@ -95,19 +95,14 @@ public class MainActivity extends AppCompatActivity
                 Log.d("ERROR----: ","FRAGMENT ENTRA ENTRA");
             }
 
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_list) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.your_placeholder, new PlacesListFragment()).commit();
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_map) {
             startActivity(mapIntent);
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

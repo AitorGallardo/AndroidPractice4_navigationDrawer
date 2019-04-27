@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/action_save"
-        android:icon="@drawable/save_white"
+        android:icon="@drawable/save_new"
         android:title="Save"
         android:tint="@android:color/white"
         app:showAsAction="always" />
