@@ -9,6 +9,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -181,8 +182,8 @@ public class EditFragment extends Fragment {
         // Selector (Using an array from '/styles' with the options)
         typeSelector = (Spinner) view.findViewById(R.id.typeSpinner);
             // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(),
-                R.array.typeOptions_array, android.R.layout.simple_spinner_item);
+
+        ArrayAdapter<TipoLugar> adapter = new ArrayAdapter<TipoLugar>(view.getContext(), android.R.layout.simple_spinner_item,TipoLugar.values());
             // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             // Apply the adapter to the spinner
@@ -210,6 +211,12 @@ public class EditFragment extends Fragment {
             addLon.setText(lonToEdit);
             String latToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_LATITUD));
             addLat.setText(latToEdit);
+            // We store enum value, is there for that we look for it on our adapter and then we take
+            //  the position in the adapter. With this we can set preselected value in spinner
+            int TypeToEditValue = cursorTasks.getInt(cursorTasks.getColumnIndex(bd.PLACESLIST_TIPO));
+            int spinnerPosition = adapter.getPosition(TipoLugar.findLugarbyValue(TypeToEditValue));
+
+            typeSelector.setSelection(spinnerPosition);
         }
 
     }
@@ -220,10 +227,11 @@ public class EditFragment extends Fragment {
         String direction = addDirection.getText().toString() != null ? addDirection.getText().toString() : null;
         String web = addWeb.getText().toString() != null ? addWeb.getText().toString() : null;
         String phone = addPhone.getText().toString() != null ? addPhone.getText().toString() : null;
-        String type = typeSelector.getSelectedItem().toString();
+        int type = ((TipoLugar)typeSelector.getSelectedItem()).getValue();
         String lon = addLon.getText().toString() != null ? addLon.getText().toString() : null;
         String lat = addLat.getText().toString() != null ? addLat.getText().toString() : null;
         String rate = addRate.getText().toString() != null ? addRate.getText().toString() : null;
+
 
         if(cursorTasks != null){
             long id = Long.parseLong(cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_ID)));
