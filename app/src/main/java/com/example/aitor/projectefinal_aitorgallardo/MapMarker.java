@@ -4,12 +4,14 @@ public class MapMarker {
     private String name;
     private Double lon;
     private Double lat;
+    private String image;
 
 
-    public MapMarker(String name, Double lon, Double lat){
+    public MapMarker(String name, Double lon, Double lat, String image){
         this.name = name;
         this.lon = lon;
         this.lat = lat;
+        this.image = image;
     }
 
 
@@ -35,5 +37,13 @@ public class MapMarker {
 
     public void setLat(Double lat) {
         this.lat = lat;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String lat) {
+        this.image = lat;
     }
 }
