@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 
 
@@ -39,8 +40,9 @@ public class EditFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    TextInputEditText addName, addDirection, addWeb, addPhone, addLon, addLat, addRate;
+    TextInputEditText name, direction, web, phone, lon, lat;
     Spinner typeSelector;
+    RatingBar rating;
 
 
     private LugaresBDService bd;
@@ -188,49 +190,50 @@ public class EditFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             // Apply the adapter to the spinner
         typeSelector.setAdapter(adapter);
-        addName = (TextInputEditText) view.findViewById(R.id.addName);
-        addDirection = (TextInputEditText) view.findViewById(R.id.addDirection);
-        addWeb = (TextInputEditText) view.findViewById(R.id.addWeb);
-        addPhone = (TextInputEditText) view.findViewById(R.id.addPhone);
-        addLon = (TextInputEditText) view.findViewById(R.id.addLon);
-        addLat = (TextInputEditText) view.findViewById(R.id.addLat);
-        addRate = (TextInputEditText) view.findViewById(R.id.addRate);
+        name = (TextInputEditText) view.findViewById(R.id.addName);
+        direction = (TextInputEditText) view.findViewById(R.id.addDirection);
+        web = (TextInputEditText) view.findViewById(R.id.addWeb);
+        phone = (TextInputEditText) view.findViewById(R.id.addPhone);
+        lon = (TextInputEditText) view.findViewById(R.id.addLon);
+        lat = (TextInputEditText) view.findViewById(R.id.addLat);
+        rating = (RatingBar) view.findViewById(R.id.ratingBar);
 
         if(cursorTasks != null){
             cursorTasks.moveToFirst();
 
             String nameToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_NOMBRE));
-            addName.setText(nameToEdit);
+            name.setText(nameToEdit);
             String dirToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_DIRECCION));
-            addDirection.setText(dirToEdit);
+            direction.setText(dirToEdit);
             String webToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_URL));
-            addWeb.setText(webToEdit);
+            web.setText(webToEdit);
             String phoneToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_TELEFONO));
-            addPhone.setText(phoneToEdit);
+            phone.setText(phoneToEdit);
             String lonToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_LONGITUD));
-            addLon.setText(lonToEdit);
+            lon.setText(lonToEdit);
             String latToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_LATITUD));
-            addLat.setText(latToEdit);
+            lat.setText(latToEdit);
             // We store enum value, is there for that we look for it on our adapter and then we take
             //  the position in the adapter. With this we can set preselected value in spinner
             int TypeToEditValue = cursorTasks.getInt(cursorTasks.getColumnIndex(bd.PLACESLIST_TIPO));
             int spinnerPosition = adapter.getPosition(TipoLugar.findLugarbyValue(TypeToEditValue));
-
             typeSelector.setSelection(spinnerPosition);
+            float rateToEdit = cursorTasks.getFloat(cursorTasks.getColumnIndex(bd.PLACESLIST_VALORACION));
+            rating.setRating(rateToEdit);
         }
 
     }
 
     public void addOrUpdate(){
 
-        String name = addName.getText().toString() != null ? addName.getText().toString() : null;
-        String direction = addDirection.getText().toString() != null ? addDirection.getText().toString() : null;
-        String web = addWeb.getText().toString() != null ? addWeb.getText().toString() : null;
-        String phone = addPhone.getText().toString() != null ? addPhone.getText().toString() : null;
+        String name = this.name.getText().toString() != null ? this.name.getText().toString() : null;
+        String direction = this.direction.getText().toString() != null ? this.direction.getText().toString() : null;
+        String web = this.web.getText().toString() != null ? this.web.getText().toString() : null;
+        String phone = this.phone.getText().toString() != null ? this.phone.getText().toString() : null;
         int type = ((TipoLugar)typeSelector.getSelectedItem()).getValue();
-        String lon = addLon.getText().toString() != null ? addLon.getText().toString() : null;
-        String lat = addLat.getText().toString() != null ? addLat.getText().toString() : null;
-        String rate = addRate.getText().toString() != null ? addRate.getText().toString() : null;
+        String lon = this.lon.getText().toString() != null ? this.lon.getText().toString() : null;
+        String lat = this.lat.getText().toString() != null ? this.lat.getText().toString() : null;
+        float rate = rating.getRating();
 
 
         if(cursorTasks != null){

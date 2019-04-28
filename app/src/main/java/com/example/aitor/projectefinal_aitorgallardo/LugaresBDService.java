@@ -88,7 +88,7 @@ public class LugaresBDService {
     // ******************
 
     public long taskAdd(String name, String description, String web,
-                        String telefon,int tipus, String lat, String longit, String valoracio) {
+                        String telefon,int tipus, String lat, String longit, float valoracio) {
         // Creem una nova tasca i retornem el id crear per si el necessiten
         ContentValues values = new ContentValues();
         values.put(PLACESLIST_NOMBRE, name);
@@ -104,7 +104,7 @@ public class LugaresBDService {
      }
 
      public void taskUpdate(long id, String name, String description, String web,
-                            String telefon,int tipus, String lat, String longit, String valoracio) {
+                            String telefon,int tipus, String lat, String longit, float valoracio) {
          // Modifiquem els valors de las tasca amb clau primària "id"
          ContentValues values = new ContentValues();
          values.put(PLACESLIST_NOMBRE, name);
