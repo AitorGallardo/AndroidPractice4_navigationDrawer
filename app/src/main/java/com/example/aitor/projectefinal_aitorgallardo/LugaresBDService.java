@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.math.BigDecimal;
+
 public class LugaresBDService {
 
     public static final String table_PLACESLIST = "lugares";
@@ -55,7 +57,7 @@ public class LugaresBDService {
 //        return dbR.query(table_PLACESLIST, new String[]{PLACESLIST_ID,PLACESLIST_NOMBRE,PLACESLIST_DIRECCION,PLACESLIST_LONGITUD,PLACESLIST_LATITUD,PLACESLIST_TIPO,PLACESLIST_FOTO,PLACESLIST_TELEFONO,PLACESLIST_URL,PLACESLIST_COMENTARIO,PLACESLIST_FECHA,PLACESLIST_VALORACION},
 //                null, null,
 //                null, null, PLACESLIST_ID);
-        return dbR.query(table_PLACESLIST, new String[]{PLACESLIST_ID,PLACESLIST_NOMBRE,PLACESLIST_DIRECCION, PLACESLIST_FOTO, PLACESLIST_VALORACION},
+        return dbR.query(table_PLACESLIST, new String[]{PLACESLIST_ID,PLACESLIST_NOMBRE,PLACESLIST_DIRECCION, PLACESLIST_FOTO, PLACESLIST_VALORACION, PLACESLIST_LONGITUD, PLACESLIST_LATITUD},
                 null, null,
                 null, null, PLACESLIST_ID);
     }
@@ -74,7 +76,7 @@ public class LugaresBDService {
     //             null, null, PLACESLIST_ID);
     // }
 
-     public Cursor task(long id) {
+     public Cursor place(long id) {
          // Retorna un cursor només amb el id indicat
          // Retornem les tasques que el camp DONE = 1
          return dbR.query(table_PLACESLIST, new String[]{PLACESLIST_ID,PLACESLIST_NOMBRE,PLACESLIST_DIRECCION,PLACESLIST_URL,PLACESLIST_TELEFONO, PLACESLIST_TIPO, PLACESLIST_LATITUD, PLACESLIST_LONGITUD, PLACESLIST_VALORACION},
@@ -87,9 +89,9 @@ public class LugaresBDService {
     // Funciones de manipualación de datos
     // ******************
 
-    public long taskAdd(String name, String description, String web,
-                        String telefon,int tipus, String lat, String longit, float valoracio) {
-        // Creem una nova tasca i retornem el id crear per si el necessiten
+    public long placeAdd(String name, String description, String web,
+                         String telefon, int tipus, String lat, String longit, float valoracio) {
+        // Creem una nova place i retornem el id crear per si el necessiten
         ContentValues values = new ContentValues();
         values.put(PLACESLIST_NOMBRE, name);
         values.put(PLACESLIST_DIRECCION, description);
@@ -141,9 +143,9 @@ public class LugaresBDService {
          return dbW.insert(table_PLACESLIST,null,values);
      }
 
-     public void taskUpdate(long id, String name, String description, String web,
-                            String telefon,int tipus, String lat, String longit, float valoracio) {
-         // Modifiquem els valors de las tasca amb clau primària "id"
+     public void placeUpdate(long id, String name, String description, String web,
+                             String telefon, int tipus, String lat, String longit, float valoracio) {
+         // Modifiquem els valors de las place amb clau primària "id"
          ContentValues values = new ContentValues();
          values.put(PLACESLIST_NOMBRE, name);
          values.put(PLACESLIST_DIRECCION, description);
@@ -194,24 +196,9 @@ public class LugaresBDService {
          dbW.update(table_PLACESLIST,values, PLACESLIST_ID + " = ?", new String[] { String.valueOf(id) });
      }
 
-     public void taskDelete(long id) {
-         // Eliminem la task amb clau primària "id"
+     public void placeDelete(long id) {
+         // Eliminem la place amb clau primària "id"
          dbW.delete(table_PLACESLIST,PLACESLIST_ID + " = ?", new String[] { String.valueOf(id) });
      }
 
-    // public void taskPending(long id) {
-    //     // Modifiquem al estat de pendent la task indicada
-    //     ContentValues values = new ContentValues();
-    //     values.put(PLACESLIST_DONE,0);
-
-    //     dbW.update(table_PLACESLIST,values, PLACESLIST_ID + " = ?", new String[] { String.valueOf(id) });
-    // }
-
-    // public void taskCompleted(long id) {
-    //     // Modifiquem al estat de pendent la task indicada
-    //     ContentValues values = new ContentValues();
-    //     values.put(PLACESLIST_DONE,1);
-
-    //     dbW.update(table_PLACESLIST,values, PLACESLIST_ID + " = ?", new String[] { String.valueOf(id) });
-    // }
 }

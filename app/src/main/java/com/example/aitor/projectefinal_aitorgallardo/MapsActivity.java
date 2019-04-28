@@ -13,6 +13,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -56,8 +57,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
          MarkerOptions test = new MarkerOptions();
          test.position(sydney);
          test.title("Marker in Sydney");
-        test.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        mMap.addMarker(test);
+         test.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+         mMap.addMarker(test);
 
          // mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
@@ -66,25 +67,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
        cursor = bd.placesList();
 
        // PETA AL ACCEDET AL CURSOR ---->>. MIRAR
-//      if (cursor.moveToFirst()) {
-//          while (!cursor.isAfterLast()) {
-//
-//              String name = cursor.getString(cursor.getColumnIndex("nombre"));
-//              int lon = Integer.valueOf(cursor.getString(cursor.getColumnIndex("longitud")));
-//              int lat = Integer.valueOf(cursor.getString(cursor.getColumnIndex("latitud")));
-//
-//              marksList.add(new MapMarker(name, lon, lat));
-//              cursor.moveToNext();
-//          }
-//      }
+      if (cursor.moveToFirst()) {
+          while (!cursor.isAfterLast()) {
 
-//       for(MapMarker marker : marksList){
-//
+              String name = cursor.getString(cursor.getColumnIndex(bd.PLACESLIST_NOMBRE));
+              Double lon = Double.parseDouble(cursor.getString(cursor.getColumnIndex(bd.PLACESLIST_LONGITUD)));
+              Double lat = Double.parseDouble(cursor.getString(cursor.getColumnIndex(bd.PLACESLIST_LATITUD)));
+
+              marksList.add(new MapMarker(name, lon, lat));
+              cursor.moveToNext();
+          }
+      }
+
+       for(MapMarker marker : marksList){
+
+           LatLng testlat = new LatLng(marker.getLat(),marker.getLat());
+           Log.d("DONDE------>", marker.getLat()+", "+marker.getLon());
+           MarkerOptions mark = new MarkerOptions();
+           mark.position(testlat);
+           mark.title(marker.getName());
+           mark.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
 //          mMap.addMarker(new MarkerOptions().position(new LatLng(marker.getLat(), marker.getLat()))
 //                                           .title(marker.getName())
 //                                           .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-//
-//       }
+           mMap.addMarker(mark);
+
+       }
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }

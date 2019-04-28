@@ -1,14 +1,11 @@
 package com.example.aitor.projectefinal_aitorgallardo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,9 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.Spinner;
+
+import java.math.BigDecimal;
 
 
 /**
@@ -46,9 +44,9 @@ public class EditFragment extends Fragment {
 
 
     private LugaresBDService bd;
-    Cursor cursorTasks;
+    Cursor cursorWithaPlaceToEdit;
 
-    private boolean addig_place;
+    private boolean edditing_place;
 
     private OnFragmentInteractionListener mListener;
 
@@ -87,11 +85,11 @@ public class EditFragment extends Fragment {
         bd = new LugaresBDService(this.getContext());
 
         if(bundle != null){ // we need to be aware when our form is adding or edditing
-            addig_place = false;
-          long taskId = bundle.getLong("id");
-            cursorTasks = bd.task(taskId);
+            edditing_place = true;
+            long placeId = bundle.getLong("id");
+            cursorWithaPlaceToEdit = bd.place(placeId);
         } else {
-            addig_place = true;
+            edditing_place = false;
         }
 
         setHasOptionsMenu(true); //we need this function to edit the menu, it report that this fragment would like to participate in populating the options menu
@@ -112,10 +110,10 @@ public class EditFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if(addig_place){
-            inflater.inflate(R.menu.add_menu, menu);
-        } else {
+        if(edditing_place){
             inflater.inflate(R.menu.edit_menu, menu);
+        } else {
+            inflater.inflate(R.menu.add_menu, menu);
         }
 
 
@@ -140,8 +138,8 @@ public class EditFragment extends Fragment {
                         .commit();
                 return true;
             case R.id.action_delete:
-                long id = Long.parseLong(cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_ID)));
-                bd.taskDelete(id);
+                long id = Long.parseLong(cursorWithaPlaceToEdit.getString(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_ID)));
+                bd.placeDelete(id);
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.your_placeholder, listFragment)
@@ -181,7 +179,7 @@ public class EditFragment extends Fragment {
 
     public void setUpLayoutElements(View view){
 
-        // Selector (Using an array from '/styles' with the options)
+        // Selector
         typeSelector = (Spinner) view.findViewById(R.id.typeSpinner);
             // Create an ArrayAdapter using the string array and a default spinner layout
 
@@ -194,32 +192,35 @@ public class EditFragment extends Fragment {
         direction = (TextInputEditText) view.findViewById(R.id.addDirection);
         web = (TextInputEditText) view.findViewById(R.id.addWeb);
         phone = (TextInputEditText) view.findViewById(R.id.addPhone);
-        lon = (TextInputEditText) view.findViewById(R.id.addLon);
         lat = (TextInputEditText) view.findViewById(R.id.addLat);
+        lon = (TextInputEditText) view.findViewById(R.id.addLon);
         rating = (RatingBar) view.findViewById(R.id.ratingBar);
 
-        if(cursorTasks != null){
-            cursorTasks.moveToFirst();
+        if(edditing_place){
 
-            String nameToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_NOMBRE));
+            cursorWithaPlaceToEdit.moveToFirst();
+            String nameToEdit = cursorWithaPlaceToEdit.getString(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_NOMBRE));
             name.setText(nameToEdit);
-            String dirToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_DIRECCION));
+            String dirToEdit = cursorWithaPlaceToEdit.getString(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_DIRECCION));
             direction.setText(dirToEdit);
-            String webToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_URL));
+            String webToEdit = cursorWithaPlaceToEdit.getString(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_URL));
             web.setText(webToEdit);
-            String phoneToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_TELEFONO));
+            String phoneToEdit = cursorWithaPlaceToEdit.getString(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_TELEFONO));
             phone.setText(phoneToEdit);
-            String lonToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_LONGITUD));
-            lon.setText(lonToEdit);
-            String latToEdit = cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_LATITUD));
+            String latToEdit = cursorWithaPlaceToEdit.getString(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_LATITUD)) ;
+            Log.d("PATCHHH------>", latToEdit);
+
             lat.setText(latToEdit);
+            String lonToEdit = cursorWithaPlaceToEdit.getString(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_LONGITUD)) ;
+            lon.setText(lonToEdit);
             // We store enum value, is there for that we look for it on our adapter and then we take
             //  the position in the adapter. With this we can set preselected value in spinner
-            int TypeToEditValue = cursorTasks.getInt(cursorTasks.getColumnIndex(bd.PLACESLIST_TIPO));
+            int TypeToEditValue = cursorWithaPlaceToEdit.getInt(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_TIPO));
             int spinnerPosition = adapter.getPosition(TipoLugar.findLugarbyValue(TypeToEditValue));
             typeSelector.setSelection(spinnerPosition);
-            float rateToEdit = cursorTasks.getFloat(cursorTasks.getColumnIndex(bd.PLACESLIST_VALORACION));
+            float rateToEdit = cursorWithaPlaceToEdit.getFloat(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_VALORACION));
             rating.setRating(rateToEdit);
+
         }
 
     }
@@ -231,16 +232,17 @@ public class EditFragment extends Fragment {
         String web = this.web.getText().toString() != null ? this.web.getText().toString() : null;
         String phone = this.phone.getText().toString() != null ? this.phone.getText().toString() : null;
         int type = ((TipoLugar)typeSelector.getSelectedItem()).getValue();
-        String lon = this.lon.getText().toString() != null ? this.lon.getText().toString() : null;
         String lat = this.lat.getText().toString() != null ? this.lat.getText().toString() : null;
+        Log.d("RECOJEEE------>", lat);
+        String lon = this.lon.getText().toString() != null ? this.lon.getText().toString() : null;
         float rate = rating.getRating();
 
 
-        if(cursorTasks != null){
-            long id = Long.parseLong(cursorTasks.getString(cursorTasks.getColumnIndex(bd.PLACESLIST_ID)));
-            bd.taskUpdate(id ,name, direction, web, phone, type, lon, lat, rate);
+        if(edditing_place){
+            long id = Long.parseLong(cursorWithaPlaceToEdit.getString(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_ID)));
+            bd.placeUpdate(id ,name, direction, web, phone, type, lat, lon, rate);
         }else{
-            bd.taskAdd(name, direction, web, phone, type, lon, lat, rate);
+            bd.placeAdd(name, direction, web, phone, type, lat, lon, rate);
         }
     }
 

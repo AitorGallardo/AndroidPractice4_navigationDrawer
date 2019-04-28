@@ -40,14 +40,11 @@ public class PlacesListFragment extends Fragment
                                 implements EditFragment.OnFragmentInteractionListener{
 
     private LugaresBDService bd;
-    private FragmentActivity myContext;
 
-    Toolbar toolbar;
 
     private static String[] from = new String[]{LugaresBDService.PLACESLIST_NOMBRE, LugaresBDService.PLACESLIST_DIRECCION};
     private static int[] to = new int[]{R.id.placeName, R.id.placeDirection};
 
-    private SimpleCursorAdapter sCursorAdapter;
     private placesListAdapter cursorAdapter;
     Cursor cursorTasks;
 
@@ -106,10 +103,9 @@ public class PlacesListFragment extends Fragment
         // We fill the cursor with the query that get all the places
         cursorTasks = bd.placesList();
         Log.d("GET_CONTEXT_VALUE ===", this.getContext().toString());
-        // Now create a simple cursor adapter and set it to display
 
+        // Now create a simple cursor adapter and set it to display
         cursorAdapter = new placesListAdapter(v.getContext(), R.layout.fragment_places_list_row, cursorTasks, from, to, 0);
-        sCursorAdapter = new SimpleCursorAdapter(v.getContext(), R.layout.fragment_places_list_row, cursorTasks, from, to);
         ListView lv = (ListView)v.findViewById(R.id.lvDades);
         lv.setAdapter(cursorAdapter);
 
@@ -193,7 +189,6 @@ public class PlacesListFragment extends Fragment
 
     @Override
     public void onAttach(Activity activity) {
-        myContext=(FragmentActivity) activity;
         super.onAttach(activity);
     }
 
@@ -223,7 +218,7 @@ public class PlacesListFragment extends Fragment
         void onFragmentInteraction(Uri uri);
     }
 }
-class placesListAdapter extends android.widget.SimpleCursorAdapter {
+class placesListAdapter extends android.widget.SimpleCursorAdapter { // we create our custom adapter cause we need to fill imageView and rating bar, and we cannot do it using a default SimpleCursorAdapter
 
     private Context mContext;
     private Context appContext;

@@ -2,11 +2,11 @@ package com.example.aitor.projectefinal_aitorgallardo;
 
 public class MapMarker {
     private String name;
-    private int lon;
-    private int lat;
+    private Double lon;
+    private Double lat;
 
 
-    public MapMarker(String name, int lon, int lat){
+    public MapMarker(String name, Double lon, Double lat){
         this.name = name;
         this.lon = lon;
         this.lat = lat;
@@ -21,19 +21,19 @@ public class MapMarker {
         this.name = name;
     }
 
-    public int getLon() {
+    public Double getLon() {
         return lon;
     }
 
-    public void setLon(int lon) {
+    public void setLon(Double lon) {
         this.lon = lon;
     }
 
-    public int getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(int lat) {
+    public void setLat(Double lat) {
         this.lat = lat;
     }
 }

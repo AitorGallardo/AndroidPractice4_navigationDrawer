@@ -18,9 +18,9 @@ public class LugaresBD extends SQLiteOpenHelper {
                  "_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
                  "nombre TEXT, " +
                  "direccion TEXT, " +
-                 "longitud REAL, " +
-                "latitud REAL, " +
-                "tipo INTEGER, " +
+                 "latitud TEXT, " +
+                 "longitud TEXT, " +
+                 "tipo INTEGER, " +
                  "foto TEXT, " +
                  "telefono INTEGER, " +
                  "url TEXT, " +
@@ -29,14 +29,14 @@ public class LugaresBD extends SQLiteOpenHelper {
                  "valoracion REAL)");
          bd.execSQL("INSERT INTO lugares VALUES (null, "+
                  "'Escuela Politécnica Superior de Gandía', "+
-                 "'C/ Paranimf, 1 46730 Gandia (SPAIN)', -0.166093, 38.995656, "+
+                 "'C/ Paranimf, 1 46730 Gandia (SPAIN)', '38.995656', '-0.166093', "+
                  TipoLugar.EDUCACION.ordinal() + ", '@drawable/restaurant', 962849300, "+
                  "'http://www.epsg.upv.es', "+
                  "'Uno de los mejores lugares para formarse.', "+
                  System.currentTimeMillis() +", 3.0)");
          bd.execSQL("INSERT INTO lugares VALUES (null, 'Al de siempre', "+
                  "'P.Industrial Junto Molí Nou - 46722, Benifla (Valencia)', "+
-                 " -0.190642, 38.925857, " + TipoLugar.BAR.ordinal() + ", '@drawable/restaurant', "+
+                 "38.925857,-0.190642, " + TipoLugar.BAR.ordinal() + ", '@drawable/restaurant', "+
                  "636472405, '', "+"'No te pierdas el arroz en calabaza.', " +
                  System.currentTimeMillis() +", 3.0)");
          bd.execSQL("INSERT INTO lugares VALUES (null, 'androidcurso.com', "+
