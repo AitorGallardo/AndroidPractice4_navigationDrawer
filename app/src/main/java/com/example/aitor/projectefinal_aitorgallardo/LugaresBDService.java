@@ -55,7 +55,7 @@ public class LugaresBDService {
 //        return dbR.query(table_PLACESLIST, new String[]{PLACESLIST_ID,PLACESLIST_NOMBRE,PLACESLIST_DIRECCION,PLACESLIST_LONGITUD,PLACESLIST_LATITUD,PLACESLIST_TIPO,PLACESLIST_FOTO,PLACESLIST_TELEFONO,PLACESLIST_URL,PLACESLIST_COMENTARIO,PLACESLIST_FECHA,PLACESLIST_VALORACION},
 //                null, null,
 //                null, null, PLACESLIST_ID);
-        return dbR.query(table_PLACESLIST, new String[]{PLACESLIST_ID,PLACESLIST_NOMBRE,PLACESLIST_DIRECCION},
+        return dbR.query(table_PLACESLIST, new String[]{PLACESLIST_ID,PLACESLIST_NOMBRE,PLACESLIST_DIRECCION, PLACESLIST_FOTO, PLACESLIST_VALORACION},
                 null, null,
                 null, null, PLACESLIST_ID);
     }
@@ -99,6 +99,44 @@ public class LugaresBDService {
         values.put(PLACESLIST_LATITUD,lat);
         values.put(PLACESLIST_LONGITUD,longit);
         values.put(PLACESLIST_VALORACION,valoracio);
+
+
+        switch(tipus){
+            case 0:
+                values.put(PLACESLIST_FOTO,"@drawable/shopping");
+                break;
+            case 1:
+                values.put(PLACESLIST_FOTO,"@drawable/hotel");
+                break;
+            case 2:
+                values.put(PLACESLIST_FOTO,"@drawable/drink_beer_jar");
+                break;
+            case 3:
+                values.put(PLACESLIST_FOTO,"@drawable/cocktail_glass");
+                break;
+            case 4:
+                values.put(PLACESLIST_FOTO,"@drawable/theatre_mask");
+                break;
+            case 5:
+                values.put(PLACESLIST_FOTO,"@drawable/restaurant");
+                break;
+            case 6:
+                values.put(PLACESLIST_FOTO,"@drawable/other");
+                break;
+            case 7:
+                values.put(PLACESLIST_FOTO,"@drawable/book");
+                break;
+            case 8:
+                values.put(PLACESLIST_FOTO,"@drawable/sport");
+                break;
+            case 9:
+                values.put(PLACESLIST_FOTO,"@drawable/nature");
+                break;
+            case 10:
+                values.put(PLACESLIST_FOTO,"@drawable/gas_station");
+                break;
+
+        }
          
          return dbW.insert(table_PLACESLIST,null,values);
      }
@@ -115,6 +153,43 @@ public class LugaresBDService {
          values.put(PLACESLIST_LATITUD,lat);
          values.put(PLACESLIST_LONGITUD,longit);
          values.put(PLACESLIST_VALORACION,valoracio);
+
+        switch(tipus){
+            case 0:
+                values.put(PLACESLIST_FOTO,"@drawable/shopping");
+                break;
+            case 1:
+                values.put(PLACESLIST_FOTO,"@drawable/hotel");
+                break;
+            case 2:
+                values.put(PLACESLIST_FOTO,"@drawable/drink_beer_jar");
+                break;
+            case 3:
+                values.put(PLACESLIST_FOTO,"@drawable/cocktail_glass");
+                break;
+            case 4:
+                values.put(PLACESLIST_FOTO,"@drawable/theatre_mask");
+                break;
+            case 5:
+                values.put(PLACESLIST_FOTO,"@drawable/restaurant");
+                break;
+            case 6:
+                values.put(PLACESLIST_FOTO,"@drawable/other");
+                break;
+            case 7:
+                values.put(PLACESLIST_FOTO,"@drawable/book");
+                break;
+            case 8:
+                values.put(PLACESLIST_FOTO,"@drawable/sport");
+                break;
+            case 9:
+                values.put(PLACESLIST_FOTO,"@drawable/nature");
+                break;
+            case 10:
+                values.put(PLACESLIST_FOTO,"@drawable/gas_station");
+                break;
+
+        }
 
          dbW.update(table_PLACESLIST,values, PLACESLIST_ID + " = ?", new String[] { String.valueOf(id) });
      }

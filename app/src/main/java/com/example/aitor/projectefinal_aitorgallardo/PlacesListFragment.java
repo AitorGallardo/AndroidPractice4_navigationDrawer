@@ -2,6 +2,7 @@ package com.example.aitor.projectefinal_aitorgallardo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -22,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toolbar;
 
@@ -46,6 +48,7 @@ public class PlacesListFragment extends Fragment
     private static int[] to = new int[]{R.id.placeName, R.id.placeDirection};
 
     private SimpleCursorAdapter sCursorAdapter;
+    private placesListAdapter cursorAdapter;
     Cursor cursorTasks;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -104,9 +107,11 @@ public class PlacesListFragment extends Fragment
         cursorTasks = bd.placesList();
         Log.d("GET_CONTEXT_VALUE ===", this.getContext().toString());
         // Now create a simple cursor adapter and set it to display
-        sCursorAdapter = new SimpleCursorAdapter(v.getContext(), R.layout.fragment_places_list_row, cursorTasks, from, to);      // scTasks.oTodoListIcon = this;
+
+        cursorAdapter = new placesListAdapter(v.getContext(), R.layout.fragment_places_list_row, cursorTasks, from, to, 0);
+        sCursorAdapter = new SimpleCursorAdapter(v.getContext(), R.layout.fragment_places_list_row, cursorTasks, from, to);
         ListView lv = (ListView)v.findViewById(R.id.lvDades);
-        lv.setAdapter(sCursorAdapter);
+        lv.setAdapter(cursorAdapter);
 
        lv.setOnItemClickListener(
                new AdapterView.OnItemClickListener()
@@ -216,6 +221,55 @@ public class PlacesListFragment extends Fragment
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+}
+class placesListAdapter extends android.widget.SimpleCursorAdapter {
+
+    private Context mContext;
+    private Context appContext;
+    private int layout;
+    private Cursor cr;
+    private final LayoutInflater inflater;
+
+    public placesListAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+        super(context, layout, c, from, to, flags);
+
+        this.layout=layout;
+        this.mContext = context;
+        this.inflater=LayoutInflater.from(context);
+        this.cr=c;
+    }
+
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        View view = super.getView(position, convertView, parent);
+
+        // We set our cursor in the correct row
+        Cursor linia = (Cursor) getItem(position);
+
+        // Set image
+        try{
+            Resources resource = view.getContext().getResources();
+            String imageRoute = linia.getString(linia.getColumnIndexOrThrow(LugaresBDService.PLACESLIST_FOTO));
+            int resourceID = resource.getIdentifier(imageRoute , "drawable", view.getContext().getPackageName());
+            ImageView image = (ImageView) view.findViewById(R.id.imageView);
+            image.setImageResource(resourceID);
+        }catch(Exception e){
+            Resources resource = view.getContext().getResources();
+            int resourceID = resource.getIdentifier("@drawable/other" , "drawable", view.getContext().getPackageName());
+            ImageView image = (ImageView) view.findViewById(R.id.imageView);
+            image.setImageResource(resourceID);
+        }
+
+
+        // Set rating
+        float ratingValue = linia.getFloat(linia.getColumnIndex(LugaresBDService.PLACESLIST_VALORACION));
+        RatingBar rating = (RatingBar) view.findViewById(R.id.ratingBar);
+        rating.setRating(ratingValue);
+
+        return view;
     }
 }
 
