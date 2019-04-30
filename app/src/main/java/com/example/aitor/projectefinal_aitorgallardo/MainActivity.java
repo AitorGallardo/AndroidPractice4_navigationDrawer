@@ -51,23 +51,24 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        bd = new LugaresBDService(this);
         // We gets the weather once a time the application is launched
         cursorLatLon = bd.getLatLon();
 
         weatherService = new WeatherService();
-
-
         if (cursorLatLon.moveToFirst()) {
             while (!cursorLatLon.isAfterLast()) {
                 long id = cursorLatLon.getLong(cursorLatLon.getColumnIndex(bd.PLACESLIST_ID));
                 String lat = cursorLatLon.getString(cursorLatLon.getColumnIndex(bd.PLACESLIST_LATITUD));
                 String lon = cursorLatLon.getString(cursorLatLon.getColumnIndex(bd.PLACESLIST_LONGITUD));
+      //           String icon = weatherService.getWeather(lat,lon).getIcon();
 
-                bd.updateWeather(id, weatherService.getWeather(lat,lon).getIcon());
+               // bd.updateWeather(id, "hh");
                 cursorLatLon.moveToNext();
             }
         }
+
+
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.your_placeholder, new PlacesListFragment()).commit();

@@ -25,7 +25,7 @@ public class WeatherService {
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.setMaxRetriesAndTimeout(0,10000);
-
+        client.addHeader("Authorization","");
         String Url ="api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&APPID="+APIKEY;
         client.get(Url, new AsyncHttpResponseHandler() {
 
