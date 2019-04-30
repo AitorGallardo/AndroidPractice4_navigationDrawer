@@ -20,7 +20,7 @@ public class WeatherService {
 
     // REQUEST EXAMPLE = api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon} // api.openweathermap.org/data/2.5/forecast?id=524901&APPID=1111111111
 
-    private Weather updateWeather(String lat, String lon) {
+    public Weather getWeather(String lat, String lon) {
 
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -55,7 +55,6 @@ public class WeatherService {
                 } catch (JSONException e) {
                     e.printStackTrace();
                     weather = null;
-                    return;
                 }
             }
 
@@ -64,15 +63,15 @@ public class WeatherService {
                 weather = null;
             }
         });
-        
+
         return weather;
     }
 }
 
-class Weather{
+class Weather {
 
-    String description;
-    String icon;
+    private String description;
+    private String icon;
 
     public Weather(String description, String icon){
         this.description = description;
@@ -85,7 +84,7 @@ class Weather{
         try{
 
              description = json.getString("description") != null ? json.getString("description"): "No description available";
-             icon = json.getString("summary") != null ? json.getString("summary"): null;
+             icon = json.getString("summary") != null ? "http://openweathermap.org/img/w/"+json.getString("icon")+".png" : null;
             return new Weather(description, icon);
 
         }catch (JSONException e){
@@ -96,5 +95,21 @@ class Weather{
 
         }
 
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

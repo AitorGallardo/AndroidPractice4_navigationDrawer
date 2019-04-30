@@ -46,7 +46,7 @@ public class PlacesListFragment extends Fragment
     private static int[] to = new int[]{R.id.placeName, R.id.placeDirection};
 
     private placesListAdapter cursorAdapter;
-    Cursor cursorTasks;
+    Cursor cursorPlaces;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -93,6 +93,8 @@ public class PlacesListFragment extends Fragment
             setHasOptionsMenu(true); //we need this function to edit the menu, it report that this fragment would like to participate in populating the options menu
                                     // by receiving a call to onCreateOptionsMenu(Menu, MenuInflater) and related methods.
 
+
+
          bd = new LugaresBDService(this.getContext());
 
     }
@@ -101,11 +103,11 @@ public class PlacesListFragment extends Fragment
                                     // 'onCreateView()' to get the view;
 
         // We fill the cursor with the query that get all the places
-        cursorTasks = bd.placesList();
+        cursorPlaces = bd.placesList();
         Log.d("GET_CONTEXT_VALUE ===", this.getContext().toString());
 
         // Now create a simple cursor adapter and set it to display
-        cursorAdapter = new placesListAdapter(v.getContext(), R.layout.fragment_places_list_row, cursorTasks, from, to, 0);
+        cursorAdapter = new placesListAdapter(v.getContext(), R.layout.fragment_places_list_row, cursorPlaces, from, to, 0);
         ListView lv = (ListView)v.findViewById(R.id.lvDades);
         lv.setAdapter(cursorAdapter);
 

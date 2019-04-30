@@ -26,7 +26,8 @@ public class LugaresBD extends SQLiteOpenHelper {
                  "url TEXT, " +
                  "comentario TEXT, " +
                  "fecha BIGINT, " +
-                 "valoracion REAL)");
+                 "valoracion REAL,"+
+                 "weather TEXT)");
          bd.execSQL("INSERT INTO lugares VALUES (null, "+
                  "'Escuela Politécnica Superior de Gandía', "+
                  "'C/ Paranimf, 1 46730 Gandia (SPAIN)', '38.995656', '-0.166093', "+

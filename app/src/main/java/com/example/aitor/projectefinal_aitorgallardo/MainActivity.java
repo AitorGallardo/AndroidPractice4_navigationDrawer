@@ -1,6 +1,7 @@
 package com.example.aitor.projectefinal_aitorgallardo;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,11 +19,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, EditFragment.OnFragmentInteractionListener,PlacesListFragment.OnFragmentInteractionListener {
 
     Intent mapIntent;
+
+    private LugaresBDService bd;
+    Cursor cursorLatLon;
+
+    WeatherService weatherService;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +51,26 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // We gets the weather once a time the application is launched
+        cursorLatLon = bd.getLatLon();
+
+        weatherService = new WeatherService();
+
+
+        if (cursorLatLon.moveToFirst()) {
+            while (!cursorLatLon.isAfterLast()) {
+                long id = cursorLatLon.getLong(cursorLatLon.getColumnIndex(bd.PLACESLIST_ID));
+                String lat = cursorLatLon.getString(cursorLatLon.getColumnIndex(bd.PLACESLIST_LATITUD));
+                String lon = cursorLatLon.getString(cursorLatLon.getColumnIndex(bd.PLACESLIST_LONGITUD));
+
+                bd.updateWeather(id, weatherService.getWeather(lat,lon).getIcon());
+                cursorLatLon.moveToNext();
+            }
+        }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.your_placeholder, new PlacesListFragment()).commit();
     }
 
     @Override

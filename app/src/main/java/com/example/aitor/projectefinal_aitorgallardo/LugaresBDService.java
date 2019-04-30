@@ -15,7 +15,7 @@ public class LugaresBDService {
     public static final String PLACESLIST_DIRECCION = "direccion";
     public static final String PLACESLIST_LONGITUD = "longitud";
     public static final String PLACESLIST_LATITUD = "latitud";
-
+    public static final String PLACESLIST_WEATHER = "weather";
     public static final String PLACESLIST_TIPO = "tipo";
     public static final String PLACESLIST_FOTO = "foto";
     public static final String PLACESLIST_TELEFONO = "telefono";
@@ -62,6 +62,12 @@ public class LugaresBDService {
                 null, null, PLACESLIST_ID);
     }
 
+    public Cursor getLatLon() {
+        return dbR.query(table_PLACESLIST, new String[]{PLACESLIST_ID, PLACESLIST_LATITUD, PLACESLIST_LONGITUD},
+                null, null,
+                null, null, PLACESLIST_ID);
+    }
+
     // public Cursor placesListPending() {
     //     // Retornem les tasques que el camp DONE = 0
     //     return dbR.query(table_PLACESLIST, new String[]{PLACESLIST_ID,PLACESLIST_TITLE,PLACESLIST_DESCRIPCION,PLACESLIST_LEVEL,PLACESLIST_DONE},
@@ -88,6 +94,15 @@ public class LugaresBDService {
     // ******************
     // Funciones de manipualación de datos
     // ******************
+
+
+    public void updateWeather(long id, String weather) {
+        // Modifiquem els valors de las place amb clau primària "id"
+        ContentValues values = new ContentValues();
+        values.put(PLACESLIST_WEATHER, weather);
+        dbW.update(table_PLACESLIST,values, PLACESLIST_ID + " = ?", new String[] { String.valueOf(id) });
+    }
+
 
     public long placeAdd(String name, String description, String web,
                          String telefon, int tipus, String lat, String longit, float valoracio) {
