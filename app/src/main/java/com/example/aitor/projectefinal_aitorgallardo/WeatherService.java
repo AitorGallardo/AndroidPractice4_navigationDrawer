@@ -18,7 +18,6 @@ public class WeatherService {
     Weather weather;
     private static final String APIKEY = "cac60219a0e9c813b2cbce4b0f34d1d5";
 
-    // REQUEST EXAMPLE = api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon} // api.openweathermap.org/data/2.5/forecast?id=524901&APPID=1111111111
 
     public Weather getWeather(String lat, String lon) {
 
@@ -31,10 +30,7 @@ public class WeatherService {
 
             @Override
             public void onStart() {
-                // called before request is started
-//                Dialog.setMessage("Descargando platos...");
-//                Dialog.show();
-                // snackbar i spinner para mostrar que se esta cargando informacion
+
             }
 
             @Override
