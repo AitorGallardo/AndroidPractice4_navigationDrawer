@@ -96,11 +96,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
           while (!cursor.isAfterLast()) {
 
               String name = cursor.getString(cursor.getColumnIndex(bd.PLACESLIST_NOMBRE));
-              Double lon = Double.parseDouble(cursor.getString(cursor.getColumnIndex(bd.PLACESLIST_LONGITUD)));
-              Double lat = Double.parseDouble(cursor.getString(cursor.getColumnIndex(bd.PLACESLIST_LATITUD)));
+              Double lon = cursor.getString(cursor.getColumnIndex(bd.PLACESLIST_LONGITUD)) != null ? Double.parseDouble(cursor.getString(cursor.getColumnIndex(bd.PLACESLIST_LONGITUD))) : null;
+              Double lat = cursor.getString(cursor.getColumnIndex(bd.PLACESLIST_LATITUD))!= null? Double.parseDouble(cursor.getString(cursor.getColumnIndex(bd.PLACESLIST_LATITUD))) : null;
               String image = cursor.getString(cursor.getColumnIndex(bd.PLACESLIST_FOTO));
 
-              marksList.add(new MapMarker(name, lon, lat, image));
+              if(lat != null && lon != null){
+                  marksList.add(new MapMarker(name, lon, lat, image));
+              }
+
               cursor.moveToNext();
           }
       }

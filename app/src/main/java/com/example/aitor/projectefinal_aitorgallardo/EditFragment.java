@@ -207,11 +207,9 @@ public class EditFragment extends Fragment {
             web.setText(webToEdit);
             String phoneToEdit = cursorWithaPlaceToEdit.getString(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_TELEFONO));
             phone.setText(phoneToEdit);
-            String latToEdit = cursorWithaPlaceToEdit.getString(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_LATITUD)) ;
-            Log.d("PATCHHH------>", latToEdit);
-
+            String latToEdit = cursorWithaPlaceToEdit.getString(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_LATITUD)) != null ?  cursorWithaPlaceToEdit.getString(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_LATITUD)) : "";
             lat.setText(latToEdit);
-            String lonToEdit = cursorWithaPlaceToEdit.getString(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_LONGITUD)) ;
+            String lonToEdit = cursorWithaPlaceToEdit.getString(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_LONGITUD)) != null ? cursorWithaPlaceToEdit.getString(cursorWithaPlaceToEdit.getColumnIndex(bd.PLACESLIST_LONGITUD)) : "" ;
             lon.setText(lonToEdit);
             // We store enum value, is there for that we look for it on our adapter and then we take
             //  the position in the adapter. With this we can set preselected value in spinner
@@ -226,7 +224,7 @@ public class EditFragment extends Fragment {
     }
 
     public void addOrUpdate(){
-String h;
+
         String name = this.name.getText().toString() != null ? this.name.getText().toString() : null;
         String direction = this.direction.getText().toString() != null ? this.direction.getText().toString() : null;
         String web = this.web.getText().toString() != null ? this.web.getText().toString() : null;
@@ -242,7 +240,7 @@ String h;
         }
         catch (NumberFormatException e) {
             // Using default value
-            lat = "";
+            lat = null;
         }
         try {
             Double.parseDouble(this.lon.getText().toString());
@@ -250,7 +248,7 @@ String h;
         }
         catch (NumberFormatException e) {
             // Using default value
-            lon = "";
+            lon = null;
         }
 
 

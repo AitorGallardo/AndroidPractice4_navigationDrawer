@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toolbar;
 
 
@@ -245,6 +246,7 @@ class placesListAdapter extends android.widget.SimpleCursorAdapter { // we creat
 
         // We set our cursor in the correct row
         Cursor linia = (Cursor) getItem(position);
+
 
         // Set image
         try{
