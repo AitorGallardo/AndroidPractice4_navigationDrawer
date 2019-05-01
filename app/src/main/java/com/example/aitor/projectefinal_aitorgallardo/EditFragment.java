@@ -226,16 +226,33 @@ public class EditFragment extends Fragment {
     }
 
     public void addOrUpdate(){
-
+String h;
         String name = this.name.getText().toString() != null ? this.name.getText().toString() : null;
         String direction = this.direction.getText().toString() != null ? this.direction.getText().toString() : null;
         String web = this.web.getText().toString() != null ? this.web.getText().toString() : null;
         String phone = this.phone.getText().toString() != null ? this.phone.getText().toString() : null;
         int type = ((TipoLugar)typeSelector.getSelectedItem()).getValue();
-        String lat = this.lat.getText().toString() != null ? this.lat.getText().toString() : null;
-        Log.d("RECOJEEE------>", lat);
-        String lon = this.lon.getText().toString() != null ? this.lon.getText().toString() : null;
         float rate = rating.getRating();
+        String lat;
+        String lon;
+
+        try {
+            Double.parseDouble(this.lat.getText().toString());
+            lat = this.lat.getText().toString();
+        }
+        catch (NumberFormatException e) {
+            // Using default value
+            lat = "";
+        }
+        try {
+            Double.parseDouble(this.lon.getText().toString());
+            lon = this.lon.getText().toString();
+        }
+        catch (NumberFormatException e) {
+            // Using default value
+            lon = "";
+        }
+
 
 
         if(edditing_place){

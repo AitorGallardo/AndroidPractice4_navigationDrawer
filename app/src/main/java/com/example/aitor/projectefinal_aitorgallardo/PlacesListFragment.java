@@ -42,8 +42,8 @@ public class PlacesListFragment extends Fragment
     private LugaresBDService bd;
 
 
-    private static String[] from = new String[]{LugaresBDService.PLACESLIST_NOMBRE, LugaresBDService.PLACESLIST_DIRECCION};
-    private static int[] to = new int[]{R.id.placeName, R.id.placeDirection};
+    private static String[] from = new String[]{LugaresBDService.PLACESLIST_NOMBRE, LugaresBDService.PLACESLIST_DIRECCION, LugaresBDService.PLACESLIST_TELEFONO, LugaresBDService.PLACESLIST_URL};
+    private static int[] to = new int[]{R.id.placeName, R.id.placeDirection, R.id.placePhone, R.id.placeUrl};
 
     private placesListAdapter cursorAdapter;
     Cursor cursorPlaces;
